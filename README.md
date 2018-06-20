@@ -1,17 +1,30 @@
-**NADICS** is an open source framework for the purpose of Anyomaly Detection for Industrial Control Systems using classical machine learning and neural networks methods. The software adapts to Scikit-learn and TensorFlow, while taking general datasets as input. This flexibility lets you easily analyze training and inference on a single CPU or multiple GPUs in a desktop or server without rewriting code.
+# NADICS
+**NADICS** is an open source framework for the purpose of Network Anyomaly Detection for Industrial Control Systems using classical machine learning and neural networks methods. The software adapts to Scikit-learn and TensorFlow, while taking general datasets as input. This flexibility lets you easily do training and inference on a single CPU as well as multiple GPUs on a desktop or server without rewriting code.
 
-NADICS was originally developed by researchers and engineers working at the chair of IT Security at the Technical University of Munich for the purpose of conducting network intelligence research. The system is general enough to be applicable in a wide variety of other domains, as well.
+The software was originally developed by researchers and engineers working at the chair of IT Security at the Technical University of Munich for the purpose of conducting network intelligence research. The system is general enough to be applicable in a wide variety of other domains as well.
 
-## Installation
-Just execute `python setup.py install`.
+## Areas of application
+
+automotive industry
+health care services
+
+## Limitations
+
+## Installation using Anaconda
+
+Ensure you have installed `conda` correctly. Execute `conda install nadics-1.0.0-py27_0.tar.bz2`. Visit [1] for more information.
+
+## Installation using pip
+
+Execute `python setup.py install`. Visit [2] for more information.
 
 ## Project structure
 
 | **Folder**        | **Description**                                      |
 | ------------- | ------------------------------------------------ |
 | data          | Training and layout files should be stored here. |
-| nadics       | The kernel code and configuration files.         |
-| results       | In standard confguration the analysis files are written here. |
+| nadics       | Kernel code and configuration files.         |
+| results       | Output for analyzed files. |
 
 ## Specifiying layout files
 NADICS expects a layout file for each data set. For this purpose you can find `template.cfg` in `data/config`. E.g. the UNSW dataset in `data/example` requires the layout file `unsw.cfg` in `data/layouts`.
@@ -23,6 +36,8 @@ NADICS expects a layout file for each data set. For this purpose you can find `t
 | binaryLabel    | One column containing the binary labels. |
 | multiLabel    | One column containing the labels for multi classification. |
 | stringFeatures | Only the columns containing strings in order to one-hot-encode. |
+
+# The UNSW Dataset
 
 ## Binary-classification with Random Forest
 
@@ -85,3 +100,6 @@ As you can see the plot also visualizes the standard deviation of each feature.
 ## Help
 
 You can get more information about how to run NADICS by just calling `python main.py -h`.
+
+[1]: https://conda.io/docs/user-guide/install/index.html
+[2]: https://pip.pypa.io/en/stable/installing/
