@@ -1,10 +1,17 @@
+###############################################################################
+#                                                                             #
+# The main function includes our whole workflow in terms of machine learning. #
+# Each step is visually seperated by several lines of comments and functions  #
+# that might take a while to execute, should give a hint to the user about    #
+# their status via the 'console' module.                                      #
+#                                                                             #
+# NOTE: In terms of debugging we will sanity checks later and some test       #
+# functions to make sure the installation was successful.                     #
+#                                                                             #
+###############################################################################
+
 from os import path
-import multiprocessing     
-import Queue
-import ConfigParser         
-import pandas             
-import sys                  
-import argparse             
+import ConfigParser
 import models
 import parser
 import console
@@ -15,21 +22,22 @@ import selector as sel
 import sampling as sam
 import boosting as boo
 import learning as lea
+import clustering as clu
 import version
-import time                      
-import numpy as np               
-
+import time
 import warnings
 warnings.simplefilter("ignore", DeprecationWarning)
 warnings.simplefilter("ignore", FutureWarning)
 # Turning off UndefinedMetricWarning
 warnings.filterwarnings("ignore")
 
+
 def intro():
     print("#####################################################")
     print("#                                                   #")
     print("#          NIDS MACHINE LEARNING ENGINE             #")
-    print("#            ..:::: ICEFALL " + version.VERSION + " ::::..              #")
+    print("#            ..:::: ICEFALL " + version.VERSION + " ::::..\
+              #")
     print("#                                                   #")
     print("#####################################################\n")
 
@@ -41,14 +49,11 @@ def outro():
     print("#                                                   #")
     print("#####################################################\n")
 
+
 def run_main():
     main()
 
-#####################################################
-#                                                   #
-# MAIN                                              #
-#                                                   #
-#####################################################
+
 def main():
     intro()
 
@@ -62,6 +67,7 @@ def main():
 
     classification = args.classification
     clfs = args.classifiers
+    clustering = models.clustering[args.clustering] if args.clustering else None
     sampling = models.samplings[args.sampling] if args.sampling else None
     boosting = models.boostings[args.boosting] if args.boosting else None
     training_size = args.training
@@ -84,10 +90,11 @@ def main():
     config = ConfigParser.ConfigParser()
     config.read("config/defaults.ini")
 
-    random_state = config.get("defaults", "random_state")
+    # NOTE: Further default values whith might be used
+    # random_state = config.get("defaults", "random_state")
+    # time_until_kill = config.get("defaults", "time_until_kill")
+    # verbosity = config.get("defaults", "verbosity")
     floating_precision = int(config.get("defaults", "floating_precision"))
-    time_until_kill = config.get("defaults", "time_until_kill")
-    verbosity = config.get("defaults", "verbosity")
 
     path_data = config.get("data", "path_data")
     path_pre = config.get("data", "path_pre")
@@ -96,22 +103,30 @@ def main():
     path_importances = config.get("data", "path_importances")
     path_score = config.get("data", "path_score")
 
-    training_path = path.join(path.realpath(path_data),
-                          config.get("data", "training"))
+    training_path = path.join(
+        path.realpath(path_data),
+        config.get("data", "training"))
     training_filename = path.splitext(path.basename(training_path))[0]
-    testing_path = path.join(path.realpath(path_data),
-                         config.get("data", "testing"))
-    testing_filename = path.splitext(path.basename(testing_path))[0]
-    layout_path = path.join(path.realpath(path_layout),
-                       config.get("data", "layout"))
-    xTraining_pre = path.join(path.realpath(path_pre),
-                              config.get("data", "xTraining_pre"))
-    xTesting_pre = path.join(path.realpath(path_pre),
-                             config.get("data", "xTesting_pre"))
-    yTraining_pre = path.join(path.realpath(path_pre),
-                              config.get("data", "yTraining_pre"))
-    yTesting_pre = path.join(path.realpath(path_pre),
-                             config.get("data", "yTesting_pre"))
+    testing_path = path.join(
+        path.realpath(path_data),
+        config.get("data", "testing"))
+    # NOTE: Might be useful for debugging purposes
+    # testing_filename = path.splitext(path.basename(testing_path))[0]
+    layout_path = path.join(
+        path.realpath(path_layout),
+        config.get("data", "layout"))
+    xTraining_pre = path.join(
+        path.realpath(path_pre),
+        config.get("data", "xTraining_pre"))
+    xTesting_pre = path.join(
+        path.realpath(path_pre),
+        config.get("data", "xTesting_pre"))
+    yTraining_pre = path.join(
+        path.realpath(path_pre),
+        config.get("data", "yTraining_pre"))
+    yTesting_pre = path.join(
+        path.realpath(path_pre),
+        config.get("data", "yTesting_pre"))
 
     plots_filetype = config.get("plots", "filetype")
     time_start = time.strftime("%Y%m%d-%H%M")
@@ -140,7 +155,9 @@ def main():
     #####################################################
 
     console.startConfig()
-    fullHeader, featureHeader, labelHeader, stringFeatures = parser.parseData(layout_path, classification)
+    fullHeader, featureHeader, labelHeader, stringFeatures = parser.parseData(
+        layout_path,
+        classification)
     console.endConfig()
 
     #####################################################
@@ -265,12 +282,12 @@ def main():
 
     if (plotImportances):
         runtime_start = console.startPlotting()
-        
+
         filestr = path_plots + \
             encoding_prefix + \
             training_filename + "_" + \
             time_start + \
-            plots_filetype 
+            plots_filetype
 
         sel.plotImportances(xTraining,
                             xFeatures,
@@ -292,9 +309,24 @@ def main():
         sel.saveImportances(xTraining,
                             xFeatures,
                             importances,
-                            indices, 
+                            indices,
                             filestr)
         console.endSavingImportances(runtime_start)
+
+    #####################################################
+    #                                                   #
+    # CLUSTERING                                        #
+    #                                                   #
+    #####################################################
+
+    if not (clustering is None):
+        runtime_start = console.startClustering()
+        y_pred, scores_pred = clu.outliers(clustering,
+                                           xTraining,
+                                           args.clustering)
+        threshold = clu.threshold(scores_pred, clustering.contamination)
+        n_errors = clu.nErrors(y_pred, yTraining.values)
+        console.endClustering(runtime_start, threshold, n_errors)
 
     #####################################################
     #                                                   #
@@ -339,7 +371,7 @@ def main():
         #####################################################
 
         if (gridSearch):
-            clf = learning.gridSearch(clf)
+            clf = lea.gridSearch(clf)
 
         runtime_start = console.startTraining()
         clf = lea.training(clf,
@@ -394,7 +426,6 @@ def main():
     #                                                   #
     #####################################################
 
-    # Not intended to work with CNN yet.
     if results:
         report.printSummary(clfs, results, floating_precision)
     outro()

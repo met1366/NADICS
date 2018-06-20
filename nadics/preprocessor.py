@@ -1,6 +1,20 @@
+###############################################################################
+#                                                                             #
+# Here we provide some functions to prepare the dataset for training and      #
+# eventually load an already prepared dataset from disk. For repeatedly use   #
+# we save some time by e.g. not reading, parsing and one-hot-encoding the     #
+# whole dataset again and again.                                              #
+#                                                                             #
+# NOTE: Take a note of the 'commonFeatures' function in our feature header    #
+# might change depending on chosen one-hot-encoding.                          #
+# If so, the relevant feature header will blow up by the size of different    #
+# strings encoded.                                                            #
+#                                                                             #
+###############################################################################
+
 from os import path         # Comfortable OS path manipulation
-import sys                  # Console printing
 import pandas
+
 
 def checkIniPaths(train, test, config):
     if (not (path.isfile(train))):
@@ -12,6 +26,7 @@ def checkIniPaths(train, test, config):
 
     return 0
 
+
 def preprocessed(prep_train, prep_test, prep_label_train, prep_label_test):
     isPreprocessed = True if (path.exists(prep_train)
                               and path.exists(prep_test)
@@ -19,6 +34,7 @@ def preprocessed(prep_train, prep_test, prep_label_train, prep_label_test):
                               and path.exists(prep_label_test)) \
         else False
     return isPreprocessed
+
 
 def oneHotEncode(dataset, featuresToEncode):
     newFeatures = []
@@ -39,15 +55,17 @@ def oneHotEncode(dataset, featuresToEncode):
         dataset.drop(feature, axis=1, inplace=True)
     return dataset, newFeatures
 
+
 def encode(data_train, data_test, features):
     # Encoding all features containing strings via One-Hot-Encoding
-    dataset_training, training_features = oneHotEncode(data_train,
-                                                 features)
+    dataset_training, training_features = oneHotEncode(
+        data_train,
+        features)
     dataset_testing, _ = oneHotEncode(data_test,
                                       features)
-    return dataset_training, \
-           dataset_testing, \
-           training_features
+
+    return dataset_training, dataset_testing, training_features
+
 
 def commonFeatures(encodingEnabled, dataset, features):
     if (encodingEnabled):
@@ -57,12 +75,14 @@ def commonFeatures(encodingEnabled, dataset, features):
                                 list(dataset))
     else:
         commonFeatures = features
-    
+
     return commonFeatures
+
 
 def samplingRatio(data_train, data_test, size_train, size_test):
     return data_train.sample(frac=size_train), \
            data_test.sample(frac=size_test)
+
 
 def load(path_training, path_testing, header):
     # Reading and cutting (plus shiffling) the whole training dataset to a
@@ -74,11 +94,13 @@ def load(path_training, path_testing, header):
 
     return dataset_training, dataset_testing
 
+
 def loadPreprocessed(prep_train, prep_test, prep_label_train, prep_label_test):
     return pandas.read_pickle(prep_train), \
            pandas.read_pickle(prep_test), \
            pandas.read_pickle(prep_label_train), \
            pandas.read_pickle(prep_label_test)
+
 
 def saveToPickle(xTrain, path_xTrain,
                  xTest, path_xTest,

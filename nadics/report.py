@@ -1,7 +1,15 @@
+###############################################################################
+#                                                                             #
+# Printing short or full reports of the resutls. Feel free to edit the output #
+# to your needs.                                                              #
+#                                                                             #
+###############################################################################
+
 import colors as c
 from sklearn.metrics import accuracy_score
 from sklearn.metrics import classification_report
 from sklearn.metrics import precision_recall_fscore_support
+
 
 def printAll(clf, time_training, time_testing, yPrediction, groundTruth):
     accuracyScore = accuracy_score(y_pred=yPrediction, y_true=groundTruth)
@@ -28,12 +36,15 @@ def printAll(clf, time_training, time_testing, yPrediction, groundTruth):
 
     return clf_result
 
+
 def printAccuracy(accuracyScore):
     print ("Accuracy Score: %s"
            % c.colored(str(round(accuracyScore, 3)), c.Color.BLUE))
 
+
 def printReport(report):
     print ("Classification report: \n" + report)
+
 
 def maxStrLen(*strLists):
     count = 0
@@ -42,6 +53,7 @@ def maxStrLen(*strLists):
             maxLength = len(string)
             count = maxLength if maxLength > count else count
     return count
+
 
 def printSummary(classifiers, results, floating_precision):
     fields = ["",
@@ -117,20 +129,21 @@ def printSummary(classifiers, results, floating_precision):
             print lineSeperator
     print lineSeperator + "\n"
 
+
 def printGridSearch(clf):
     print("Best parameters set found on development set:")
     print(clf.best_params_)
     print("Grid scores on development set:")
     means = clf.cv_results_['mean_test_score']
     stds = clf.cv_results_['std_test_score']
-    for mean, std, params in zip(means, 
+    for mean, std, params in zip(means,
                                  stds,
                                  clf.cv_results_['params']):
         print("%0.3f (+/-%0.03f) for %r" % (mean, std * 2, params))
- 
+
+
 def save(filename, result):
-    result_string = ''.join(str(e) for e in result)
+    # result_string = ''.join(str(e) for e in result)
 
     fi = open(filename, "w")
     fi.write("%s\n" % result)
-

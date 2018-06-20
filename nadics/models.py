@@ -1,3 +1,16 @@
+###############################################################################
+#                                                                             #
+# Here are all models listed we provide with either binary-, '2', or multi-   #
+# classification purpose, 'n'.                                                #
+# We used a Grid Search to determine good hyperparamters for our models and   #
+# set them afterwards for our needs.                                          #
+#                                                                             #
+# NOTE: Feel free to add other models and be aware of their fitting methods.  #
+# E.g. some model for outliers detection might be called differently than     #
+# other and thus, might need some modifications.                              #
+#                                                                             #
+###############################################################################
+
 from sklearn.tree import DecisionTreeClassifier
 from sklearn.ensemble import RandomForestClassifier
 from sklearn.gaussian_process import GaussianProcessClassifier
@@ -34,15 +47,16 @@ from sklearn.covariance import EllipticEnvelope
 
 
 classifications = ["2", "n"]
+
 classifiers = {
     "AdaBoost": AdaBoostClassifier(),
     "DecisionTree": DecisionTreeClassifier(),
     "RandomForest": RandomForestClassifier(
-        n_estimators = 200,
-        criterion = "gini",
-        max_features = "auto",
-        max_depth = None,
-        max_leaf_nodes = None,
+        n_estimators=200,
+        criterion="gini",
+        max_features="auto",
+        max_depth=None,
+        max_leaf_nodes=None,
         n_jobs=-1),
     "KNeighbors": KNeighborsClassifier(
         n_jobs=-1),
@@ -60,12 +74,16 @@ classifiers = {
     "Nu_SVC": NuSVC(
         cache_size=2048)
     }
-novelty_outliers = {"IsolationForest": IsolationForest(),
+
+clustering = {
+    "IsolationForest": IsolationForest(),
     "OSVM": OneClassSVM(),
     "EllipticEnvelope": EllipticEnvelope(),
     "LOF": LocalOutlierFactor()
     }
-samplings = {"ADASYN": ADASYN(),
+
+samplings = {
+    "ADASYN": ADASYN(),
     "RandomOverSampler": RandomOverSampler(),
     "SMOTE": SMOTE(),
     "CondensedNearestNeighbour": CondensedNearestNeighbour(),
@@ -81,7 +99,9 @@ samplings = {"ADASYN": ADASYN(),
     "SMOTETomek": SMOTETomek(),
     "SMOTEENN": SMOTEENN()
     }
-boostings = {"GradientBoosting": GradientBoostingClassifier(),
+
+boostings = {
+    "GradientBoosting": GradientBoostingClassifier(),
     "AdaBoost": AdaBoostClassifier(
         algorithm='SAMME')
     }
