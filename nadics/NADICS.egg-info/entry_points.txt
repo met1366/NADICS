@@ -1,3 +1,0 @@
-[console_scripts]
-nadics = nadics.main:run_main
-

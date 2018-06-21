@@ -1,7 +1,0 @@
-setup.py
-NADICS.egg-info/PKG-INFO
-NADICS.egg-info/SOURCES.txt
-NADICS.egg-info/dependency_links.txt
-NADICS.egg-info/entry_points.txt
-NADICS.egg-info/requires.txt
-NADICS.egg-info/top_level.txt

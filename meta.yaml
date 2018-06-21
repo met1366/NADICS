@@ -1,0 +1,44 @@
+{% set name = "nadics" %}
+{% set version = "1.0.0" %}
+{% set file_ext = "tar.gz" %}
+
+package:
+  name: '{{ name|lower }}'
+  version: '{{ version }}'
+
+source:
+  path: ../archiv
+
+build:
+  number: 0
+  entry_points:
+    - nadics.main:run_main
+  script: python setup.py install --single-version-externally-managed --record=record.txt
+
+requirements:
+  host:
+    - python
+    - setuptools
+    - pandas
+    - scikit-learn
+    - scipy
+    - matplotlib
+    - tensorflow
+  run:
+    - python
+
+build:
+  include_recipe: False
+
+about:
+  home: https://github.com/joerick/pyinstrument
+  license: BSD
+  license_family: BSD
+  license_file: ''
+  summary: A call stack profiler for Python. Inspired by Apple's Instruments.app
+  description: ''
+  doc_url: ''
+  dev_url: ''
+
+extra:
+  recipe-maintainers: ''

@@ -18,8 +18,8 @@ CONSOLE_SCRIPTS = [
 setup(name="NADICS",
       version=ver.VERSION,
       description="Machine Learning Engine for NIDS",
-      author="Mohammad Reza Norouzian",
-      author_email="norouzian@sec.in.tum.de",
+      author="Mohammad Norouzian, Fabian Weise",
+      author_email="norouzian@sec.in.tum.de, fabian.weise@tum.de",
       packages=find_packages(),
       entry_points={
           'console_scripts': CONSOLE_SCRIPTS,

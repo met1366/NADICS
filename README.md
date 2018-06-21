@@ -1,14 +1,20 @@
 # NADICS
-**NADICS** is an open source framework for the purpose of Network Anyomaly Detection for Industrial Control Systems using classical machine learning and neural networks methods. The software adapts to Scikit-learn and TensorFlow, while taking general datasets as input. This flexibility lets you easily do training and inference on a single CPU as well as multiple GPUs on a desktop or server without rewriting code.
+**NADICS** is an open source framework for the purpose of **Network Anyomaly Detection for Industrial Control Systems** using classical machine learning and neural network methods. The software uses Scikit-learn and TensorFlow taking general datasets as input. This flexibility lets you easily do training and inference on a single CPU as well as multiple GPUs on a desktop or server without rewriting lots of code.
 
 The software was originally developed by researchers and engineers working at the chair of IT Security at the Technical University of Munich for the purpose of conducting network intelligence research. The system is general enough to be applicable in a wide variety of other domains as well.
 
 ## Areas of application
+As automated manufacturing systems become more and more complex, the need for new methodologies to improve the design and development of industrial monitoring and control solutions is becoming peremptory.
 
-automotive industry
-health care services
+Coming along with the Digitalization the complexity of automated manufacturing systems is advancing as the need of modern Industrial Monitoring and Control Systems (ICS) is becoming peremptory. Therefore Programmable Logic Controllers (PLCs) are widely used in the automotive, energy, nuclear and health care industry.
+Those critical Supervisory Control and Data Acquisition (SCADA) systems and PLCs are vunerably against advanced attacks.
+
+**NADICS** is able to detect those domain specific attacks based on the redicted information captured via Network TAP devices or sensors on industrial plants with a high accuracy.
 
 ## Limitations
+To a certain extent the data sets need to be prepared before put into **NADICS**. This includes the labelling as well as the formatting.
+
+The software does not contain a pretrained model. Thus the accuracy is highly dependent on the prepared dataset and chosen algorithmical model.
 
 ## Installation using Anaconda
 
