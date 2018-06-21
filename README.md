@@ -1,20 +1,26 @@
 # NADICS
 **NADICS** is an open source framework for the purpose of **Network Anyomaly Detection for Industrial Control Systems** using classical machine learning and neural network methods. The software uses Scikit-learn and TensorFlow taking general datasets as input. This flexibility lets you easily do training and inference on a single CPU as well as multiple GPUs on a desktop or server without rewriting lots of code.
 
-The software was originally developed by researchers and engineers working at the chair of IT Security at the Technical University of Munich for the purpose of conducting network intelligence research. The system is general enough to be applicable in a wide variety of other domains as well.
+NADICS is modular, that is if any additional models are needed one can easily write their own module by having the knowledge in Python.
+
+Any person having a basic knowledge in programming, machine learning and network securitycan use this framework. NADICS is general enough to applied for different network environments. However, the majority of effort is the pre-prossessing which requires fundamental knowledge in computer networks.
+
+The software was originally developed by researchers and engineers working at the chair of IT Security at the Technical University of Munich for the purpose of conducting network intelligence research.
 
 ## Areas of application
 As automated manufacturing systems become more and more complex, the need for new methodologies to improve the design and development of industrial monitoring and control solutions is becoming peremptory.
 
 Coming along with the Digitalization the complexity of automated manufacturing systems is advancing as the need of modern Industrial Monitoring and Control Systems (ICS) is becoming peremptory. Therefore Programmable Logic Controllers (PLCs) are widely used in the automotive, energy, nuclear and health care industry.
-Those critical Supervisory Control and Data Acquisition (SCADA) systems and PLCs are vunerably against advanced attacks.
+Those critical Supervisory Control and Data Acquisition (SCADA) systems and PLCs are vulnerability against advanced attacks.
 
-**NADICS** is able to detect those domain specific attacks based on the redicted information captured via Network TAP devices or sensors on industrial plants with a high accuracy.
+NADICS is able to detect those domain specific attacks based on the redicted information captured via Network TAP devices or sensors on industrial plants with a high accuracy.
 
 ## Limitations
-To a certain extent the data sets need to be prepared before put into **NADICS**. This includes the labelling as well as the formatting.
+To a certain extent the data sets need to be prepared before put into NADICS. This includes the labelling as well as the formatting.
 
 The software does not contain a pretrained model. Thus the accuracy is highly dependent on the prepared dataset and chosen algorithmical model.
+
+Further development goes to the post-processing part in terms of e.g. raising an alarm after having found a malicious activity. Due to different policies and network architectures handling the alarm should be implemented by the hosted developer.
 
 ## Installation using Anaconda
 
@@ -30,7 +36,7 @@ Execute `python setup.py install`. Visit [2] for more information.
 | ------------- | ------------------------------------------------ |
 | data          | Training and layout files should be stored here. |
 | nadics       | Kernel code and configuration files.         |
-| results       | Output for analyzed files. |
+| results       | Output folder for analyzed files. |
 
 ## Specifiying layout files
 NADICS expects a layout file for each data set. For this purpose you can find `template.cfg` in `data/config`. E.g. the UNSW dataset in `data/example` requires the layout file `unsw.cfg` in `data/layouts`.
@@ -44,6 +50,9 @@ NADICS expects a layout file for each data set. For this purpose you can find `t
 | stringFeatures | Only the columns containing strings in order to one-hot-encode. |
 
 # The UNSW Dataset
+The raw network packets of the UNSW-NB 15 data set was created by the IXIA PerfectStorm tool in the Cyber Range Lab of the Australian Centre for Cyber Security (ACCS) for generating a hybrid of real modern normal activities and synthetic contemporary attack behaviours. 
+The number of records in the training set is 175,341 records and the testing set is 82,332 records from the different types, attack and normal. For information about the configuration data set and the method of the feature creation of the UNSW-NB15, please visit [3].
+
 
 ## Binary-classification with Random Forest
 
@@ -109,3 +118,4 @@ You can get more information about how to run NADICS by just calling `python mai
 
 [1]: https://conda.io/docs/user-guide/install/index.html
 [2]: https://pip.pypa.io/en/stable/installing/
+[3]: https://www.unsw.adfa.edu.au/unsw-canberra-cyber/cybersecurity/ADFA-NB15-Datasets/
