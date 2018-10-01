@@ -1,5 +1,5 @@
 # NADICS
-**NADICS** is an open source framework for the purpose of **Network Anyomaly Detection for Industrial Control Systems** using classical machine learning and neural network methods. The software uses Scikit-learn and TensorFlow taking general datasets as input. This flexibility lets you easily do training and inference on a single CPU as well as multiple GPUs on a desktop or server without rewriting lots of code.
+**NADICS** is an open source framework for the purpose of **Network Anomaly Detection for Industrial Control Systems** using classical machine learning and neural network methods. The software uses Scikit-learn and TensorFlow taking general datasets as input. This flexibility lets you easily do training and inference on a single CPU as well as multiple GPUs on a desktop or server without rewriting lots of code.
 
 NADICS is modular, that is if any additional models are needed one can easily write their own module by having the knowledge in Python.
 
